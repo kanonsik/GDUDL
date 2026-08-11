@@ -1,0 +1,18 @@
+{
+    "id": 51791710,
+    "name": "Auditory Breaker",
+    "author": "LazerBlitz",
+    "creators": ["LazerBlitz & Cyclic & Manix648"],
+    "verifier": "kanonsik",
+    "verification": "https://youtu.be/2J882YkEmLw?si=HfGrhPdbwtzmU7jK",
+    "percentToQualify": 64,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "KanOne",
+            "link": "-",
+            "percent": 100,
+            "hz": 144
+        }
+    ]
+}
