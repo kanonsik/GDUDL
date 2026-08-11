@@ -1,18 +1,18 @@
 {
-    "id": 57436521,
-    "name": "SampleLevel1",
-    "author": "LevelUploader",
-    "creators": ["Creator1", "Creator2", "Creator3"],
-    "verifier": "Verifier",
-    "verification": "https://www.youtube.com/watch?v=ISTl28wKSXc",
-    "percentToQualify": 56,
-    "password": "Not Copyable",
+    "id": 52374843,
+    "name": "Zodiac",
+    "author": "Bianox",
+    "creators": ["RicoLP and More"],
+    "verifier": "Technical",
+    "verification": "https://youtu.be/N4QjElo58_o?si=QBiVjecLs_xbWY9i",
+    "percentToQualify": 52,
+    "password": "Copyable",
     "records": [
         {
-            "user": "Sample_Victor_1",
-            "link": "https://www.youtube.com/watch?v=MgJeijBGKHU",
+            "user": "kanonsik",
+            "link": "https://youtu.be/x4NZMhnK0BI?si=_y7OVUs25M1hV8fT",
             "percent": 100,
-            "hz": 360
+            "hz": 200
         }
     ]
 }
