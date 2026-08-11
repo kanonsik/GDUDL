@@ -1,24 +1,16 @@
 {
-    "id": 57436521,
-    "name": "Sample Level 3",
-    "author": "Different Publisher",
-    "creators": ["Solo_Creator"],
-    "verifier": "Solo_Creator",
-    "verification": "https://www.youtube.com/watch?v=ISTl28wKSXc",
-    "percentToQualify": "100",
-    "password": "46290",
+    "id": 76159410,
+    "name": "Cosmic Cyclone",
+    "author": "APTeam",
+    "creators": ["APTeam & Cyclic"],
+    "First Victor": "kanonsik",
+    "verification": "https://www.youtube.com/watch?v=0I9xCfTOpXg",
+    "percentToQualify": "57",
+    "password": "Free To Copy",
     "records": [
         {
-            "user": "Sample_Victor_1",
-            "link": "https://www.youtube.com/watch?v=MgJeijBGKHU",
+            "user": "kanonsik",
+            "link": "https://youtu.be/U_lOAIBhYrE?si=s0TdpYwMcqOu_V3e",
             "percent": 100,
-            "hz": 360
-        },
-        {
-            "user": "Sample_Victor_2",
-            "link": "https://www.youtube.com/watch?v=MgJeijBGKHU",
-            "percent": 100,
-            "hz": 120
+            "hz": 200
         }
-    ]
-}
