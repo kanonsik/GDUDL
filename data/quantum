@@ -1,0 +1,18 @@
+{
+    "id": 38235367,
+    "name": "Quantum Processing",
+    "author": "Riot",
+    "creators": ["Riot & More"],
+    "verifier": "kanonsik",
+    "verification": "https://youtu.be/n5wo2-SXhfg?si=p8svKPlBewr9c6Dr",
+    "percentToQualify": 58,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "S1zE",
+            "link": "https://youtu.be/1QKOl-m6nSo?si=awSOB6-ryE-bvrV4",
+            "percent": 100,
+            "hz": 60
+        }
+    ]
+}
