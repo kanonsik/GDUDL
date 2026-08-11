@@ -8,5 +8,11 @@
     "percentToQualify": 64,
     "password": "Free To Copy",
     "records": [
+        {
+            "user": "s1ze",
+            "link": "https://youtu.be/TjIQuWGLfc8?si=2QxPfDjruCw6sxct",
+            "percent": 100,
+            "hz": 60
+        }
     ]
 }
