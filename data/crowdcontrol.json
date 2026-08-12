@@ -1,0 +1,18 @@
+{
+    "id": 69491632,
+    "name": "Crowd Control",
+    "author": "Deadlox",
+    "creators": ["Deadlox & More"],
+    "verifier": "KanOne",
+    "verification": "https://youtu.be/zy5uoKVYVVM?si=Lq_OiNpwZCKYr9m9",
+    "percentToQualify": 60,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "kanonsik",
+            "link": "https://www.youtube.com/watch?v=sYosERVi89c",
+            "percent": 100,
+            "hz": 200
+        }
+    ]
+}
