@@ -1,27 +1,22 @@
 [
     {
         "role": "owner",
-        "name": "List Owner",
+        "name": "kanonsik",
         "link": "https://www.youtube.com/@Kan0ns1k"
     },
     {
-        "role": "admin",
-        "name": "List Admin",
-        "link": "https://www.youtube.com/@Kan0ns1k"
+        "role": "owner",
+        "name": "KanOne",
+        "link": "https://www.youtube.com/@kanone_"
     },
     {
-        "role": "helper",
-        "name": "List Helper",
-        "link": "https://www.youtube.com/@Kan0ns1k"
+        "role": "owner",
+        "name": "S1zE",
+        "link": "https://www.youtube.com/@s1zenoobsteam"
     },
-    {
-        "role": "trial",
-        "name": "Trial List Helper",
-        "link": "https://www.youtube.com/@Kan0ns1k"
-    },
-    {
-        "role": "dev",
-        "name": "List Coder",
-        "link": "https://www.youtube.com/@Kan0ns1k"
+     {
+        "role": "owner",
+        "name": "Goldyy10",
+        "link": "https://www.youtube.com/@goldyy10"
     }
 ]
