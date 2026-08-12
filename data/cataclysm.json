@@ -1,0 +1,24 @@
+{
+    "id": 3979721,
+    "name": "Cataclysm",
+    "author": "GgB0y",
+    "creators": ["GgB0y"],
+    "verifier": "S1zE",
+    "verification": "https://youtu.be/vEfLbhU5HhA?si=Nsb7yvdIuPf85TWv",
+    "percentToQualify": "63",
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "kanonsik",
+            "link": "https://youtu.be/d0YZ0N0T44M?si=oVGtHFoByrkzCS2s",
+            "percent": 100,
+            "hz": 200
+        },
+        {
+            "user": "Goldyy10",
+            "link": "-",
+            "percent": 100,
+            "hz": 60
+        }
+    ]
+}
