@@ -1,0 +1,30 @@
+{
+    "id": 57436521,
+    "name": "Acu",
+    "author": "neigefeu",
+    "creators": ["neigefeu"],
+    "verifier": "kanonsik",
+    "verification": "https://youtu.be/ZjP9JVhwQys?si=RsdF6BcjF_dqp_bq",
+    "percentToQualify": "63",
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "goldyy10",
+            "link": "-",
+            "percent": 100,
+            "hz": 60
+        },
+        {
+            "user": "S1zE",
+            "link": "https://youtu.be/lY7reWbUEbM?si=Rr41inr_ek2BK9e1",
+            "percent": 100,
+            "hz": 165
+        },
+        {
+            "user": "KanOne",
+            "link": "-",
+            "percent": 92,
+            "hz": 144
+        }
+    ]
+}
