@@ -1,0 +1,18 @@
+{
+    "id": 91386392,
+    "name": "Iridium",
+    "author": "Spark",
+    "creators": ["Spark"],
+    "verifier": "kanonsik",
+    "verification": "https://youtu.be/rMSz7vtzRqc?si=tyxHwDLFrTCJZx49",
+    "percentToQualify": 59,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "KanOne",
+            "link": "-",
+            "percent": 78,
+            "hz": 144
+        }
+    ]
+}
