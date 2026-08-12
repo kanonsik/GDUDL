@@ -1,0 +1,24 @@
+{
+    "id": 20761188,
+    "name": "Allegiance",
+    "author": "Nikroplays",
+    "creators": ["Nikroplays"],
+    "verifier": "S1zE",
+    "verification": "-",
+    "percentToQualify": "63",
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "KanOne",
+            "link": "https://youtu.be/i_dm0NyGnBQ?si=zzNg2WefgtFiAL5G",
+            "percent": 100,
+            "hz": 144
+        },
+        {
+            "user": "kanonsik",
+            "link": "https://youtu.be/VTIdwvhtHUE?si=kFgsZRJMb4pIwnbT",
+            "percent": 100,
+            "hz": 200
+        }
+    ]
+}
