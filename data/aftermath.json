@@ -1,0 +1,19 @@
+{
+    "id": 25610878,
+    "name": "Aftermath",
+    "author": "Exenity",
+    "creators": ["Exenity & More"],
+    "verifier": "kanonsik",
+    "verification": "https://www.youtube.com/watch?v=JT7nuE3cShI",
+    "percentToQualify": 57,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "S1zE",
+            "link": "https://youtu.be/eb9AgxihIw0?si=OWCy1Rb-mVb8CeNm",
+            "percent": 100,
+            "hz": 60
+        }
+    ]
+}
+
