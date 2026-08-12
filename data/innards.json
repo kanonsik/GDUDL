@@ -1,0 +1,24 @@
+{
+    "id": 54588072,
+    "name": "innards",
+    "author": "Kaito",
+    "creators": ["Kaito"],
+    "verifier": "S1zE",
+    "verification": "https://youtu.be/1AtEz2D9g-k?si=ToEH9yiJDRvN0GIF",
+    "percentToQualify": "100",
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "kanonsik",
+            "link": "https://youtu.be/jZgETtv00U0?si=BCeEMijPjPc9JXf0",
+            "percent": 100,
+            "hz": 200
+        },
+        {
+            "user": "KanOne",
+            "link": "-",
+            "percent": 100,
+            "hz": 144
+        }
+    ]
+}
