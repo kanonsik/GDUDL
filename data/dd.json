@@ -1,0 +1,18 @@
+{
+    "id": 77114615,
+    "name": "doradura",
+    "author": "ivashkaUA",
+    "creators": ["ivashka"],
+    "verifier": "kanonsik",
+    "verification": "https://www.youtube.com/watch?v=SGxeHFcvI8U",
+    "percentToQualify": 57,
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "S1zE",
+            "link": "https://youtu.be/IWBzDZ7XYTs?si=yNbGtJQOZOAyYWvW",
+            "percent": 100,
+            "hz": 165
+        }
+    ]
+}
