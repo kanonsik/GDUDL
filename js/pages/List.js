@@ -100,13 +100,13 @@ export default {
                     </template>
                     <h3>Changelog</h3>
                     <p>
-                        Zaphkiel has been added at #11
+                    
                     </p>
                     <p>
-                        Zodiac has been added at #1
+                       
                     </p>
                     <p>
-                        Thinking Space has been added at #1
+                    
                     </p>
                     <p>
                         
