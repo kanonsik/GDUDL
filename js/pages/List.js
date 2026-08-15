@@ -89,7 +89,7 @@ export default {
                         <p class="type-label-md">Website made by <a href="https://www.youtube.com/@Kan0ns1k" target="_blank">kanonsik</a></p>
                     </div>
                     <template v-if="editors">
-                        <h3>бебзы</h3>
+                        <h3>beb3lb</h3>
                         <ol class="editors">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
@@ -98,7 +98,7 @@ export default {
                             </li>
                         </ol>
                     </template>
-                    <h3>Changelog</h3>
+                    <h3></h3>
                     <p>
                     
                     </p>
