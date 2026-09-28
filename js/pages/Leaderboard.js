@@ -43,7 +43,7 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Путь изменен на .svg. Флаг встает справа от ника -->
+                        <!-- Заголовок профиля с вашим локальным SVG флагом -->
                         <h1 style="text-align: left;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
                             <img v-if="entry && entry.country" 
@@ -53,7 +53,7 @@ export default {
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level -->
+                        <!-- Блок Hardest Level (Исправлен и защищен от пропадания) -->
                         <template v-if="hardestLevel && hardestLevel.rank">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -114,7 +114,8 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed;
+            // ФИКС: Инициализируем minLevel как первый ОБЪЕКТ массива (allPassed[0]), а не весь массив целиком
+            let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
                 if (allPassed[i] && minLevel && Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
