@@ -39,18 +39,18 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     
-                    <!-- Полностью исправленная ручная верстка блока авторов с поддержкой флексов -->
+                    <!-- Обновленный блок с измененными названиями и тёмно-серыми заголовками -->
                     <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
                         <div v-if="level.author">
-                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">Creators</div>
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Publisher</div>
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.author }}</p>
                         </div>
                         <div v-if="level.verifier">
-                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">First Victor</div>
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">First Victor</div>
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.verifier }}</p>
                         </div>
                         <div v-if="level.publisher">
-                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">Publisher</div>
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Publisher</div>
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.publisher }}</p>
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default {
     }),
     computed: {
         level() {
-            return this.list[this.selected] ? this.list[this.selected][0] : null;
+            return this.list[this.selected] ? this.list[this.selected] : null;
         },
         video() {
             if (!this.level || !this.level.showcase) {
