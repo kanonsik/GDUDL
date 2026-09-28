@@ -104,7 +104,6 @@ export default {
                     </div>
                     <template v-if="editors">
                         <h3>beb3lb</h3>
-                        <!-- Толщина линии border-bottom увеличена до 2.5px, цвет стал чуть контрастнее -->
                         <ol class="editors" style="margin-bottom: 0; border-bottom: 2.5px solid rgba(128,128,128,0.35); padding-bottom: 1.5rem;">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
@@ -139,17 +138,19 @@ export default {
     }),
     computed: {
         level() {
-            return this.list[this.selected] ? this.list[this.selected] : null;
+            return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
+        // Получаем чистый объект первого уровня выше, если он существует
         levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1]) {
-                return this.list[this.selected - 1];
+            if (this.selected > 0 && this.list[this.selected - 1]) {
+                return this.list[this.selected - 1][0];
             }
             return null;
         },
+        // Получаем чистый объект первого уровня ниже, если он существует
         levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1]) {
-                return this.list[this.selected + 1];
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1]) {
+                return this.list[this.selected + 1][0];
             }
             return null;
         },
