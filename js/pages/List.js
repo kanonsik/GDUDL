@@ -39,10 +39,7 @@ export default {
             <div class="level-container">
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
-                    
-                    <!-- Мы вернули оригинальный компонент, но передаем 'First Victor' в свойство для верификатора -->
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
-                    
                     <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
                         <li>
@@ -80,7 +77,7 @@ export default {
                     </table>
                 </div>
                 <div v-else class="level" style="height: 100%; justify-content: center; align-items: center;">
-                    <p>(ノಠ益ಠ)но彡┻━┻</p>
+                    <p>(ノಠ益ಠ)ノ彡┻━┻</p>
                 </div>
             </div>
             <div class="meta-container">
@@ -125,19 +122,7 @@ export default {
     }),
     computed: {
         level() {
-            // Берем оригинальные данные уровня
-            const currentLevel = this.list[this.selected]?.[0];
-            if (!currentLevel) return null;
-
-            // Магия: перехватываем объект и подменяем заголовок прямо в коде,
-            // чтобы оригинальный компонент LevelAuthors вывел новый текст без поломки верстки.
-            return {
-                ...currentLevel,
-                // Если в компоненте выводилось 'publisher', мы временно кладем имя верификатора туда,
-                // а вместо слова 'Verifier' заставляем его думать, что это 'Publisher'.
-                // Но проще всего: если у вас есть код LevelAuthors.js, это решилось бы за 1 секунду.
-                // Хак: Мы просто возвращаем уровень, а переименование сделаем через глобальный хак стилей ниже:
-            };
+            return this.list[this.selected]?.[0];
         },
         video() {
             if (!this.level || !this.level.showcase) {
@@ -151,24 +136,13 @@ export default {
             );
         },
     },
+    // Функция перехватывает изменения на странице и заменяет текст на лету
+    updated() {
+        this.replaceVerifierText();
+    },
     async mounted() {
         this.list = await fetchList();
         this.editors = await fetchEditors();
-
-        // Добавляем микро-стиль прямо на страницу, который найдет слово VERIFIER в верстке 
-        // оригинального компонента и заменит его визуально на FIRST VICTOR, не ломая структуру флексов.
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .authors div:nth-child(2) span, 
-            .level div:slot span { 
-                font-size: 0 !important; 
-            }
-            .authors div:nth-child(2) span::before { 
-                content: "FIRST VICTOR"; 
-                font-size: 11px; /* или любой ваш размер шрифта заголовков */
-            }
-        `;
-        document.head.appendChild(style);
 
         if (!this.list) {
             this.errors = [
@@ -188,9 +162,29 @@ export default {
         }
 
         this.loading = false;
+        
+        // Дополнительный вызов после первой загрузки списка
+        this.\$nextTick(() => {
+            this.replaceVerifierText();
+        });
     },
     methods: {
         embed,
         score,
+        // Метод ищет текстовые узлы с упоминанием Verifier и заменяет их
+        replaceVerifierText() {
+            const container = this.\$el.querySelector('.level-container');
+            if (!container) return;
+
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.nodeValue.includes('VERIFIER')) {
+                    node.nodeValue = node.nodeValue.replace('VERIFIER', 'FIRST VICTOR');
+                } else if (node.nodeValue.includes('Verifier')) {
+                    node.nodeValue = node.nodeValue.replace('Verifier', 'First Victor');
+                }
+            }
+        }
     },
 };
