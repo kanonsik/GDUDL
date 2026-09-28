@@ -46,66 +46,54 @@ export default {
                         <h1>#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3>{{ entry.total }}</h3>
                         
-                        <!-- Блок самого сложного пройденного уровня (Hardest Level) -->
+                        <!-- Блок Hardest Level (Один самый сложный) -->
                         <template v-if="hardestLevel">
                             <h2>Hardest Level</h2>
-                            <table class="table" style="margin-bottom: 1.5rem;">
-                                <tr>
-                                    <td class="rank">
-                                        <p>#{{ hardestLevel.rank }}</p>
-                                    </td>
-                                    <td class="level">
-                                        <a class="type-label-lg" target="_blank" :href="hardestLevel.link">{{ hardestLevel.level }}</a>
-                                    </td>
-                                    <td class="score">
-                                        <p>+{{ localize(hardestLevel.score) }}</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem;">
+                                <p style="margin: 0; font-weight: bold; color: #555;">#{{ hardestLevel.rank }}</p>
+                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link">{{ hardestLevel.level }}</a>
+                            </div>
                         </template>
 
-                        <h2 v-if="entry.verified.length > 0">First Victor ({{ entry.verified.length}})</h2>
-                        <table class="table">
-                            <tr v-for="score in entry.verified">
-                                <td class="rank">
-                                    <p>#{{ score.rank }}</p>
-                                </td>
-                                <td class="level">
+                        <!-- Горизонтальный блок First Victor без баллов -->
+                        <div v-if="entry.verified.length > 0" style="margin-bottom: 1.5rem;">
+                            <h2>First Victor ({{ entry.verified.length}})</h2>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center;">
+                                <div v-for="(score, idx) in entry.verified" :key="'v-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
+                                    <p style="margin: 0; font-weight: bold; color: #777;">#{{ score.rank }}</p>
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.level }}</a>
-                                </td>
-                                <td class="score">
-                                    <p>+{{ localize(score.score) }}</p>
-                                </td>
-                            </tr>
-                        </table>
-                        <h2 v-if="entry.completed.length > 0">Completed ({{ entry.completed.length }})</h2>
-                        <table class="table">
-                            <tr v-for="score in entry.completed">
-                                <td class="rank">
-                                    <p>#{{ score.rank }}</p>
-                                </td>
-                                <td class="level">
+                                    <!-- Разделитель между уровнями -->
+                                    <span v-if="idx < entry.verified.length - 1" style="color: #ccc; margin-left: 0.6rem;">•</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Горизонтальный блок Completed без баллов -->
+                        <div v-if="entry.completed.length > 0" style="margin-bottom: 1.5rem;">
+                            <h2>Completed ({{ entry.completed.length }})</h2>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center;">
+                                <div v-for="(score, idx) in entry.completed" :key="'c-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
+                                    <p style="margin: 0; font-weight: bold; color: #777;">#{{ score.rank }}</p>
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.level }}</a>
-                                </td>
-                                <td class="score">
-                                    <p>+{{ localize(score.score) }}</p>
-                                </td>
-                            </tr>
-                        </table>
-                        <h2 v-if="entry.progressed.length > 0">Progressed ({{entry.progressed.length}})</h2>
-                        <table class="table">
-                            <tr v-for="score in entry.progressed">
-                                <td class="rank">
-                                    <p>#{{ score.rank }}</p>
-                                </td>
-                                <td class="level">
+                                    <!-- Разделитель между уровнями -->
+                                    <span v-if="idx < entry.completed.length - 1" style="color: #ccc; margin-left: 0.6rem;">•</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Горизонтальный блок Progressed без баллов -->
+                        <div v-if="entry.progressed.length > 0" style="margin-bottom: 1.5rem;">
+                            <h2>Progressed ({{entry.progressed.length}})</h2>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center;">
+                                <div v-for="(score, idx) in entry.progressed" :key="'p-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
+                                    <p style="margin: 0; font-weight: bold; color: #777;">#{{ score.rank }}</p>
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.percent }}% {{ score.level }}</a>
-                                </td>
-                                <td class="score">
-                                    <p>+{{ localize(score.score) }}</p>
-                                </td>
-                            </tr>
-                        </table>
+                                    <!-- Разделитель между уровнями -->
+                                    <span v-if="idx < entry.progressed.length - 1" style="color: #ccc; margin-left: 0.6rem;">•</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -115,11 +103,9 @@ export default {
         entry() {
             return this.leaderboard[this.selected];
         },
-        // Вычисляемое свойство для поиска самого сложного уровня (минимальный rank)
         hardestLevel() {
             if (!this.entry) return null;
 
-            // Объединяем списки пройденных (completed) и верифицированных (verified) уровней
             const allPassed = [
                 ...(this.entry.verified || []),
                 ...(this.entry.completed || [])
@@ -127,7 +113,6 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            // Ищем уровень, у которого поле rank имеет наименьшее числовое значение (самый сложный)
             return allPassed.reduce((minLevel, currentLevel) => {
                 return (Number(currentLevel.rank) < Number(minLevel.rank)) ? currentLevel : minLevel;
             }, allPassed[0]);
@@ -137,7 +122,6 @@ export default {
         const [leaderboard, err] = await fetchLeaderboard();
         this.leaderboard = leaderboard;
         this.err = err;
-        // Hide loading spinner
         this.loading = false;
     },
     methods: {
