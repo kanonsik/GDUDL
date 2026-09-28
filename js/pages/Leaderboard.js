@@ -35,6 +35,7 @@ export default {
                             </td>
                             <td class="user" :class="{ 'active': selected == i }">
                                 <button @click="selected = i">
+                                    <!-- Список слева остался чистым, флаги здесь не выводятся -->
                                     <span class="type-label-lg">{{ ientry.user }}</span>
                                 </button>
                             </td>
@@ -43,19 +44,26 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
+                        <!-- Флаг выводится СТРОГО ТОЛЬКО ТУТ (в карточке профиля справа) -->
+                        <h1 style="text-align: left; display: flex; align-items: center; gap: 0.8rem;">
+                            <span>#{{ selected + 1 }} {{ entry.user }}</span>
+                            <img v-if="entry.country" 
+                                 :src="\`https://flagcdn.com\${entry.country.toLowerCase()}.png\`" 
+                                 :alt="entry.country"
+                                 style="border-radius: 4px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px;" />
+                        </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Шрифт 1.8rem, позиция темно-серая) -->
+                        <!-- Блок Hardest Level (Выравнивание слева, шрифт крупный, позиция черная) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
-                                <p style="margin: 0; font-weight: bold; color: #666; font-size: 1.8rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
+                                <p style="margin: 0; font-weight: bold; color: #000; font-size: 1.8rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
                                 <a class="type-label-lg" target="_blank" :href="hardestLevel.link" style="font-size: 1.8rem; font-weight: bold; text-decoration: none;">{{ hardestLevel.level }}</a>
                             </div>
                         </template>
 
-                        <!-- Горизонтальный блок First Victor (Точки темно-серые) -->
+                        <!-- Горизонтальный блок First Victor (По центру, точки темно-серые) -->
                         <div v-if="entry.verified.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">First Victor ({{ entry.verified.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -66,7 +74,7 @@ export default {
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Completed (Точки темно-серые) -->
+                        <!-- Горизонтальный блок Completed (По центру, точки темно-серые) -->
                         <div v-if="entry.completed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Completed ({{ entry.completed.length }})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -77,7 +85,7 @@ export default {
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Progressed (Точки темно-серые) -->
+                        <!-- Горизонтальный блок Progressed (По центру, точки темно-серые) -->
                         <div v-if="entry.progressed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Progressed ({{entry.progressed.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -107,6 +115,7 @@ export default {
 
             if (allPassed.length === 0) return null;
 
+            // Корректный поштучный перебор элементов массива (без багов reduce)
             let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
                 if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
@@ -117,7 +126,7 @@ export default {
         }
     },
     async mounted() {
-        // Чистый оригинальный метод без лишних дубликатов
+        // Стабильный запуск без лишних повторов
         const [leaderboard, err] = await fetchLeaderboard();
         this.leaderboard = leaderboard;
         this.err = err;
