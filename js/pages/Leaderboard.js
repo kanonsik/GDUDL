@@ -43,12 +43,13 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Вместо картинки <img> теперь выводится системный Emoji-флаг -->
+                        <!-- Вывод флага через супер-надёжный графический CDN, работающий везде -->
                         <h1 style="text-align: left; display: flex; align-items: center; gap: 0.8rem;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
-                            <span v-if="entry.country" style="font-size: 2rem; line-height: 1; margin-top: -2px;">
-                                {{ getFlagEmoji(entry.country) }}
-                            </span>
+                            <img v-if="entry.country" 
+                                 :src="getTwemojiUrl(entry.country)" 
+                                 :alt="entry.country"
+                                 style="width: 32px; height: auto; border-radius: 4px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
@@ -113,7 +114,7 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed[0];
+            let minLevel = allPassed;
             for (let i = 1; i < allPassed.length; i++) {
                 if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
@@ -130,14 +131,18 @@ export default {
     },
     methods: {
         localize,
-        // Метод перевода буквенного кода страны (ru, us) в системный эмодзи флага
-        getFlagEmoji(countryCode) {
+        // Генерация ссылки на SVG графику флага из стабильного репозитория Twemoji
+        getTwemojiUrl(countryCode) {
             if (!countryCode) return '';
-            const codePoints = countryCode
-                .toUpperCase()
-                .split('')
-                .map(char =>  127397 + char.charCodeAt(0));
-            return String.fromCodePoint(...codePoints);
+            
+            // Переводим буквы кода (ru) в HEX-коды символов региональных индикаторов Twemoji
+            const chr1 = countryCode.toUpperCase().charCodeAt(0) + 127397;
+            const chr2 = countryCode.toUpperCase().charCodeAt(1) + 127397;
+            
+            const hex1 = chr1.toString(16);
+            const hex2 = chr2.toString(16);
+            
+            return `https://cloudflare.com{hex1}-${hex2}.svg`;
         }
     },
 };
