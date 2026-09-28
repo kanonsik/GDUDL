@@ -4,7 +4,6 @@ import { score } from "../score.js";
 import { fetchEditors, fetchList } from "../content.js";
 
 import Spinner from "../components/Spinner.js";
-import LevelAuthors from "../components/List/LevelAuthors.js";
 
 const roleIconMap = {
     owner: "crown",
@@ -15,7 +14,7 @@ const roleIconMap = {
 };
 
 export default {
-    components: { Spinner, LevelAuthors },
+    components: { Spinner },
     template: `
         <main v-if="loading">
             <Spinner></Spinner>
@@ -40,12 +39,21 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     
-                    <!-- 
-                      Магия: Мы рендерим компонент внутрь скрытого тега, 
-                      заменяем в его HTML-коде слово VERIFIER на FIRST VICTOR 
-                      и выводим обратно в идеальном оригинальном виде и со всеми стилями.
-                    -->
-                    <div v-html="modifiedAuthorsHtml"></div>
+                    <!-- Полностью исправленная ручная верстка блока авторов с поддержкой флексов -->
+                    <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <div v-if="level.author">
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">Creators</div>
+                            <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.author }}</p>
+                        </div>
+                        <div v-if="level.verifier">
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">First Victor</div>
+                            <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.verifier }}</p>
+                        </div>
+                        <div v-if="level.publisher">
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #aaa;">Publisher</div>
+                            <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.publisher }}</p>
+                        </div>
+                    </div>
                     
                     <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
@@ -141,29 +149,6 @@ export default {
                     ? this.level.showcase
                     : this.level.verification
             );
-        },
-        // Динамический перехват и замена текста без поломки верстки компонентов
-        modifiedAuthorsHtml() {
-            if (!this.level) return '';
-
-            // Создаем виртуальный Vue-компонент в памяти
-            const Res = Vue.extend(LevelAuthors);
-            const instance = new Res({
-                propsData: {
-                    author: this.level.author,
-                    creators: this.level.creators,
-                    verifier: this.level.verifier
-                }
-            }).\$mount();
-
-            const html = instance.\$el.outerHTML;
-            instance.\$destroy();
-
-            // Заменяем все вариации слова Verifier
-            return html
-                .replace(/VERIFIER/g, 'FIRST VICTOR')
-                .replace(/Verifier/g, 'First Victor')
-                .replace(/verifier/g, 'first victor');
         }
     },
     async mounted() {
