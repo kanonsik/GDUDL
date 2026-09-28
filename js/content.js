@@ -46,8 +46,20 @@ export async function fetchEditors() {
     }
 }
 
+// Загрузка созданной базы данных флагов
+export async function fetchCountries() {
+    try {
+        const countriesResult = await fetch(`${dir}/_countries.json`);
+        const countries = await countriesResult.json();
+        return countries;
+    } catch {
+        return {}; // Возвращаем пустой объект, если файла нет, чтобы сайт не сломался
+    }
+}
+
 export async function fetchLeaderboard() {
     const list = await fetchList();
+    const countries = await fetchCountries(); // Читаем страны параллельно со списком
 
     const scoreMap = {};
     const errs = [];
@@ -112,9 +124,16 @@ export async function fetchLeaderboard() {
             .flat()
             .reduce((prev, cur) => prev + cur.score, 0);
 
+        // Сопоставляем юзера с базой стран без учета регистра символов
+        const matchedUserKey = Object.keys(countries).find(
+            (k) => k.toLowerCase() === user.toLowerCase()
+        );
+        const country = matchedUserKey ? countries[matchedUserKey] : null;
+
         return {
             user,
             total: round(total),
+            country, // Передаем флаг в объект игрока
             ...scores,
         };
     });
