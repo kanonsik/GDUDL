@@ -43,17 +43,17 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Заголовок профиля: ник прижат влево, локальный флаг справа -->
+                        <!-- Путь изменен на .svg. Флаг встает справа от ника -->
                         <h1 style="text-align: left;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
                             <img v-if="entry && entry.country" 
-                                 :src="'/assets/flags/' + entry.country.toLowerCase() + '.png'" 
+                                 :src="'/assets/flags/' + entry.country.toLowerCase() + '.svg'" 
                                  alt=""
                                  style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-left: 0.6rem; vertical-align: middle; display: inline-block;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Полностью защищенный блок Hardest Level -->
+                        <!-- Блок Hardest Level -->
                         <template v-if="hardestLevel && hardestLevel.rank">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -114,7 +114,7 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed[0];
+            let minLevel = allPassed;
             for (let i = 1; i < allPassed.length; i++) {
                 if (allPassed[i] && minLevel && Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
