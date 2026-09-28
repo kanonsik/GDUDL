@@ -140,16 +140,16 @@ export default {
         level() {
             return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
-        // Получаем чистый объект первого уровня выше, если он существует
+        // Точное извлечение объекта уровня выше с обработкой нулевого индекса массива
         levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1]) {
+            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1][0]) {
                 return this.list[this.selected - 1][0];
             }
             return null;
         },
-        // Получаем чистый объект первого уровня ниже, если он существует
+        // Точное извлечение объекта уровня ниже с обработкой нулевого индекса массива
         levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1]) {
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1][0]) {
                 return this.list[this.selected + 1][0];
             }
             return null;
