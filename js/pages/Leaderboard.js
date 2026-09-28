@@ -45,6 +45,25 @@ export default {
                     <div class="player">
                         <h1>#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3>{{ entry.total }}</h3>
+                        
+                        <!-- Блок самого сложного пройденного уровня (Hardest Level) -->
+                        <template v-if="hardestLevel">
+                            <h2>Hardest Level</h2>
+                            <table class="table" style="margin-bottom: 1.5rem;">
+                                <tr>
+                                    <td class="rank">
+                                        <p>#{{ hardestLevel.rank }}</p>
+                                    </td>
+                                    <td class="level">
+                                        <a class="type-label-lg" target="_blank" :href="hardestLevel.link">{{ hardestLevel.level }}</a>
+                                    </td>
+                                    <td class="score">
+                                        <p>+{{ localize(hardestLevel.score) }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </template>
+
                         <h2 v-if="entry.verified.length > 0">First Victor ({{ entry.verified.length}})</h2>
                         <table class="table">
                             <tr v-for="score in entry.verified">
@@ -96,6 +115,23 @@ export default {
         entry() {
             return this.leaderboard[this.selected];
         },
+        // Вычисляемое свойство для поиска самого сложного уровня (минимальный rank)
+        hardestLevel() {
+            if (!this.entry) return null;
+
+            // Объединяем списки пройденных (completed) и верифицированных (verified) уровней
+            const allPassed = [
+                ...(this.entry.verified || []),
+                ...(this.entry.completed || [])
+            ];
+
+            if (allPassed.length === 0) return null;
+
+            // Ищем уровень, у которого поле rank имеет наименьшее числовое значение (самый сложный)
+            return allPassed.reduce((minLevel, currentLevel) => {
+                return (Number(currentLevel.rank) < Number(minLevel.rank)) ? currentLevel : minLevel;
+            }, allPassed[0]);
+        }
     },
     async mounted() {
         const [leaderboard, err] = await fetchLeaderboard();
