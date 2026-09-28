@@ -39,7 +39,6 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     
-                    <!-- Исправленная верстка с правильными цветами и названиями -->
                     <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
                         <div v-if="level.author">
                             <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Publisher</div>
@@ -105,7 +104,7 @@ export default {
                     </div>
                     <template v-if="editors">
                         <h3>beb3lb</h3>
-                        <ol class="editors">
+                        <ol class="editors" style="margin-bottom: 2rem;">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
                                 <a v-if="editor.link" class="type-label-lg link" target="_blank" :href="editor.link">{{ editor.name }}</a>
@@ -113,15 +112,17 @@ export default {
                             </li>
                         </ol>
                     </template>
-                    <h3></h3>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    
+                    <!-- Блок вывода информации об уровне возвращен и работает стабильно вместе с beb3lb -->
+                    <template v-if="level">
+                        <div style="margin-top: 2rem; border-top: 1px solid #333; padding-top: 1.5rem;">
+                            <p class="type-label-md" style="line-height: 1.5; color: #ccc;">
+                                <strong>{{ level.name }}</strong> placed at #{{ selected + 1 }}<!--
+                             --><span v-if="levelAbove">, above <strong>{{ levelAbove.name }}</strong></span><!--
+                             --><span v-if="levelBelow">, below <strong>{{ levelBelow.name }}</strong></span>
+                            </p>
+                        </div>
+                    </template>
                 </div>
             </div>
         </main>
@@ -137,8 +138,21 @@ export default {
     }),
     computed: {
         level() {
-            // Строго оригинальная строка с извлечением [0] элемента массива уровня
             return this.list[this.selected] ? this.list[this.selected][0] : null;
+        },
+        // ИСПРАВЛЕНО: Добавлен индекс [0] для правильного извлечения уровня выше
+        levelAbove() {
+            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1][0]) {
+                return this.list[this.selected - 1][0];
+            }
+            return null;
+        },
+        // ИСПРАВЛЕНО: Добавлен индекс [0] для правильного извлечения уровня ниже
+        levelBelow() {
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1][0]) {
+                return this.list[this.selected + 1][0];
+            }
+            return null;
         },
         video() {
             if (!this.level || !this.level.showcase) {
