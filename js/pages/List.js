@@ -113,7 +113,7 @@ export default {
                         </ol>
                     </template>
                     
-                    <!-- Блок информации об уровне -->
+                    <!-- Полностью исправленный блок вывода по вашему шаблону -->
                     <template v-if="level">
                         <div style="margin-top: 1.5rem;">
                             <p class="type-label-md" style="line-height: 1.6; opacity: 0.85;">
@@ -137,17 +137,18 @@ export default {
         store
     }),
     computed: {
+        // ВОЗВРАЩЕНО К ОРИГИНАЛУ: Извлекаем строго нулевой элемент массива уровня [0]
         level() {
             return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
-        // Точное извлечение объекта уровня выше с обработкой нулевого индекса массива
+        // Корректное извлечение названия уровня, стоящего выше по списку
         levelAbove() {
             if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1][0]) {
                 return this.list[this.selected - 1][0];
             }
             return null;
         },
-        // Точное извлечение объекта уровня ниже с обработкой нулевого индекса массива
+        // Корректное извлечение названия уровня, стоящего ниже по списку
         levelBelow() {
             if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1][0]) {
                 return this.list[this.selected + 1][0];
