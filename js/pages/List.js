@@ -39,6 +39,7 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     
+                    <!-- Исправленная верстка с правильными цветами и названиями -->
                     <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
                         <div v-if="level.author">
                             <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Publisher</div>
@@ -104,7 +105,7 @@ export default {
                     </div>
                     <template v-if="editors">
                         <h3>beb3lb</h3>
-                        <ol class="editors" style="margin-bottom: 0; border-bottom: 2.5px solid rgba(128,128,128,0.35); padding-bottom: 1.5rem;">
+                        <ol class="editors">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
                                 <a v-if="editor.link" class="type-label-lg link" target="_blank" :href="editor.link">{{ editor.name }}</a>
@@ -112,15 +113,15 @@ export default {
                             </li>
                         </ol>
                     </template>
-                    
-                    <!-- Оптимизированный блок Pointercrate: рендерится моментально, строка формируется чисто -->
-                    <template v-if="level">
-                        <div style="margin-top: 0.6rem;">
-                            <p class="type-label-lg" style="line-height: 1.5; font-weight: bold; opacity: 0.85;">
-                                {{ level.name }} placed at #{{ selected + 1 }}{{ levelNeighbors }}
-                            </p>
-                        </div>
-                    </template>
+                    <h3></h3>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
         </main>
@@ -135,25 +136,9 @@ export default {
         store
     }),
     computed: {
-        // Стабильное извлечение объекта текущего уровня
         level() {
-            return this.list[this.selected]?.[0] || null;
-        },
-        // ОПТИМИЗАЦИЯ: Все вычисления соседей объединены в одно легковесное свойство
-        levelNeighbors() {
-            if (!this.list.length) return '';
-            
-            let result = '';
-            
-            // Быстрый поиск соседа выше с помощью опциональной цепочки ?.
-            const above = this.list[this.selected - 1]?.[0];
-            if (above) result += `, above ${above.name}`;
-            
-            // Быстрый поиск соседа ниже с помощью опциональной цепочки ?.
-            const below = this.list[this.selected + 1]?.[0];
-            if (below) result += `, below ${below.name}`;
-            
-            return result;
+            // Строго оригинальная строка с извлечением [0] элемента массива уровня
+            return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
         video() {
             if (!this.level || !this.level.showcase) {
@@ -179,7 +164,9 @@ export default {
             this.errors.push(
                 ...this.list
                     .filter(([_, err]) => err)
-                    .map(([_, err]) => `Failed to load level. (${err}.json)`)
+                    .map(([_, err]) => {
+                        return `Failed to load level. (${err}.json)`;
+                    })
             );
             if (!this.editors) {
                 this.errors.push("Failed to load list editors.");
