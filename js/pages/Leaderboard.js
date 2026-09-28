@@ -46,7 +46,7 @@ export default {
                         <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Шрифт значительно увеличен, позиция темно-серая) -->
+                        <!-- Блок Hardest Level (Шрифт 1.8rem, позиция темно-серая) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -117,13 +117,10 @@ export default {
         }
     },
     async mounted() {
-        const [leaderboard, err] = await fetchFetchLeaderboard ? await fetchLeaderboard() : [null, []];
-        this.leaderboard = leaderboard || [];
-        this.err = err || [];
-        // Фикс для корректного вызова оригинальной функции
-        const [resBoard, resErr] = await fetchLeaderboard();
-        this.leaderboard = resBoard;
-        this.err = resErr;
+        // Чистый оригинальный метод без лишних дубликатов
+        const [leaderboard, err] = await fetchLeaderboard();
+        this.leaderboard = leaderboard;
+        this.err = err;
         this.loading = false;
     },
     methods: {
