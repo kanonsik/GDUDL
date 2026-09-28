@@ -40,8 +40,12 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     
-                    <!-- Передаем First Victor вместо оригинального verifier прямо в компонент -->
-                    <LevelAuthors :author="level.author" :creators="level.creators" :verifier="firstVictorText"></LevelAuthors>
+                    <!-- 
+                      Магия: Мы рендерим компонент внутрь скрытого тега, 
+                      заменяем в его HTML-коде слово VERIFIER на FIRST VICTOR 
+                      и выводим обратно в идеальном оригинальном виде и со всеми стилями.
+                    -->
+                    <div v-html="modifiedAuthorsHtml"></div>
                     
                     <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
@@ -80,7 +84,7 @@ export default {
                     </table>
                 </div>
                 <div v-else class="level" style="height: 100%; justify-content: center; align-items: center;">
-                    <p>(ノಠ益ಠ)ノ彡┻━┻</p>
+                    <p>(ノಠ益ಠ)но彡┻━┻</p>
                 </div>
             </div>
             <div class="meta-container">
@@ -125,7 +129,6 @@ export default {
     }),
     computed: {
         level() {
-            // Вернул оригинальную логику с массивом, чтобы ничего не падало
             return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
         video() {
@@ -139,12 +142,28 @@ export default {
                     : this.level.verification
             );
         },
-        // Новое вычисляемое свойство: подменяет текст заголовка
-        firstVictorText() {
-            if (!this.level || !this.level.verifier) return '';
-            
-            // Заставляем встроенный компонент отобразить нужный нам текст
-            return this.level.verifier;
+        // Динамический перехват и замена текста без поломки верстки компонентов
+        modifiedAuthorsHtml() {
+            if (!this.level) return '';
+
+            // Создаем виртуальный Vue-компонент в памяти
+            const Res = Vue.extend(LevelAuthors);
+            const instance = new Res({
+                propsData: {
+                    author: this.level.author,
+                    creators: this.level.creators,
+                    verifier: this.level.verifier
+                }
+            }).\$mount();
+
+            const html = instance.\$el.outerHTML;
+            instance.\$destroy();
+
+            // Заменяем все вариации слова Verifier
+            return html
+                .replace(/VERIFIER/g, 'FIRST VICTOR')
+                .replace(/Verifier/g, 'First Victor')
+                .replace(/verifier/g, 'first victor');
         }
     },
     async mounted() {
