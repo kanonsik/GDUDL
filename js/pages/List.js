@@ -4,7 +4,6 @@ import { score } from "../score.js";
 import { fetchEditors, fetchList } from "../content.js";
 
 import Spinner from "../components/Spinner.js";
-import LevelAuthors from "../components/List/LevelAuthors.js";
 
 const roleIconMap = {
     owner: "crown",
@@ -15,7 +14,7 @@ const roleIconMap = {
 };
 
 export default {
-    components: { Spinner, LevelAuthors },
+    components: { Spinner },
     template: `
         <main v-if="loading">
             <Spinner></Spinner>
@@ -39,7 +38,20 @@ export default {
             <div class="level-container">
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
-                    <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
+                    <div class="authors">
+                        <div v-if="level.author">
+                            <span class="type-title-sm">CREATORS</span>
+                            <p>{{ level.author }}</p>
+                        </div>
+                        <div v-if="level.verifier">
+                            <span class="type-title-sm">FIRST VICTOR</span>
+                            <p>{{ level.verifier }}</p>
+                        </div>
+                        <div v-if="level.publisher">
+                            <span class="type-title-sm">PUBLISHER</span>
+                            <p>{{ level.publisher }}</p>
+                        </div>
+                    </div>
                     <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
                         <li>
@@ -86,7 +98,7 @@ export default {
                         <p class="error" v-for="error of errors">{{ error }}</p>
                     </div>
                     <div class="og">
-                        <p class="type-label-md">Website made by <a href="https://www.youtube.com/@Kan0ns1k" target="_blank">kanonsik</a></p>
+                        <p class="type-label-md">Website made by <a href="https://youtube.com" target="_blank">kanonsik</a></p>
                     </div>
                     <template v-if="editors">
                         <h3>beb3lb</h3>
@@ -99,30 +111,14 @@ export default {
                         </ol>
                     </template>
                     <h3></h3>
-                    <p>
-                    
-                    </p>
-                    <p>
-                       
-                    </p>
-                    <p>
-                    
-                    </p>
-                    <p>
-                        
-                    </p>
-                    <p>
-                        
-                    </p>
-                    <p>
-                        
-                    </p>
-                    <p>
-                        
-                    </p>
-                    <p>
-                        
-                    </p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
         </main>
