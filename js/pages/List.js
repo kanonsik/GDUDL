@@ -113,13 +113,11 @@ export default {
                         </ol>
                     </template>
                     
-                    <!-- Полностью исправленный адаптивный блок строки Pointercrate -->
+                    <!-- Оптимизированный блок Pointercrate: рендерится моментально, строка формируется чисто -->
                     <template v-if="level">
                         <div style="margin-top: 0.6rem;">
                             <p class="type-label-lg" style="line-height: 1.5; font-weight: bold; opacity: 0.85;">
-                                {{ level.name }} placed at #{{ selected + 1 }}<!--
-                             --><span v-if="levelAbove">, above {{ levelAbove.name }}</span><!--
-                             --><span v-if="levelBelow">, below {{ levelBelow.name }}</span>
+                                {{ level.name }} placed at #{{ selected + 1 }}{{ levelNeighbors }}
                             </p>
                         </div>
                     </template>
@@ -137,23 +135,25 @@ export default {
         store
     }),
     computed: {
-        // Оригинальное свойство: извлекает чистый объект уровня из первого элемента массива
+        // Стабильное извлечение объекта текущего уровня
         level() {
-            return this.list[this.selected] ? this.list[this.selected][0] : null;
+            return this.list[this.selected]?.[0] || null;
         },
-        // ИСПРАВЛЕНО: Безопасное извлечение объекта уровня выше [0] без падения скрипта
-        levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1]) {
-                return this.list[this.selected - 1][0] || null;
-            }
-            return null;
-        },
-        // ИСПРАВЛЕНО: Безопасное извлечение объекта уровня ниже [0] без падения скрипта
-        levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1]) {
-                return this.list[this.selected + 1][0] || null;
-            }
-            return null;
+        // ОПТИМИЗАЦИЯ: Все вычисления соседей объединены в одно легковесное свойство
+        levelNeighbors() {
+            if (!this.list.length) return '';
+            
+            let result = '';
+            
+            // Быстрый поиск соседа выше с помощью опциональной цепочки ?.
+            const above = this.list[this.selected - 1]?.[0];
+            if (above) result += `, above ${above.name}`;
+            
+            // Быстрый поиск соседа ниже с помощью опциональной цепочки ?.
+            const below = this.list[this.selected + 1]?.[0];
+            if (below) result += `, below ${below.name}`;
+            
+            return result;
         },
         video() {
             if (!this.level || !this.level.showcase) {
@@ -179,9 +179,7 @@ export default {
             this.errors.push(
                 ...this.list
                     .filter(([_, err]) => err)
-                    .map(([_, err]) => {
-                        return `Failed to load level. (${err}.json)`;
-                    })
+                    .map(([_, err]) => `Failed to load level. (${err}.json)`)
             );
             if (!this.editors) {
                 this.errors.push("Failed to load list editors.");
