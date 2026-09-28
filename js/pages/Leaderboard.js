@@ -43,17 +43,17 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Вывод флага через супер-надёжный графический CDN, работающий везде -->
+                        <!-- Надежный вывод флага через стандартный FlagCDN с фиксом отображения на Windows -->
                         <h1 style="text-align: left; display: flex; align-items: center; gap: 0.8rem;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
-                            <img v-if="entry.country" 
-                                 :src="getTwemojiUrl(entry.country)" 
+                            <img v-if="entry && entry.country" 
+                                 :src="'https://flagcdn.com' + entry.country.toLowerCase() + '.png'" 
                                  :alt="entry.country"
-                                 style="width: 32px; height: auto; border-radius: 4px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px;" />
+                                 style="width: 36px; height: auto; border-radius: 4px; box-shadow: 0 0 3px rgba(0,0,0,0.2); margin-top: 4px; display: inline-block;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level -->
+                        <!-- Блок Hardest Level (Защищен от падений, всегда будет показываться) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -102,7 +102,7 @@ export default {
     `,
     computed: {
         entry() {
-            return this.leaderboard[this.selected];
+            return this.leaderboard[this.selected] || { verified: [], completed: [], progressed: [] };
         },
         hardestLevel() {
             if (!this.entry) return null;
@@ -114,9 +114,9 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed;
+            let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
-                if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
+                if (allPassed[i] && Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
                 }
             }
@@ -131,18 +131,5 @@ export default {
     },
     methods: {
         localize,
-        // Генерация ссылки на SVG графику флага из стабильного репозитория Twemoji
-        getTwemojiUrl(countryCode) {
-            if (!countryCode) return '';
-            
-            // Переводим буквы кода (ru) в HEX-коды символов региональных индикаторов Twemoji
-            const chr1 = countryCode.toUpperCase().charCodeAt(0) + 127397;
-            const chr2 = countryCode.toUpperCase().charCodeAt(1) + 127397;
-            
-            const hex1 = chr1.toString(16);
-            const hex2 = chr2.toString(16);
-            
-            return `https://cloudflare.com{hex1}-${hex2}.svg`;
-        }
     },
 };
