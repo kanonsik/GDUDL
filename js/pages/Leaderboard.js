@@ -46,15 +46,16 @@ export default {
                         <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Исправлен, отображается слева) -->
+                        <!-- Блок Hardest Level (Позиция возвращена, шрифт увеличен) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.8rem;">Hardest Level</h2>
-                            <div style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 3rem;">
-                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link">{{ hardestLevel.level }}</a>
+                            <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
+                                <span style="font-size: 1.5rem; font-weight: bold; color: #999;">#{{ hardestLevel.rank }}</span>
+                                <a class="type-label-xl" target="_blank" :href="hardestLevel.link" style="font-size: 1.8rem; font-weight: bold; text-decoration: none;">{{ hardestLevel.level }}</a>
                             </div>
                         </template>
 
-                        <!-- Горизонтальный блок First Victor (По центру, без номеров позиций, точки черные) -->
+                        <!-- Горизонтальный блок First Victor -->
                         <div v-if="entry.verified.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">First Victor ({{ entry.verified.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -65,7 +66,7 @@ export default {
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Completed (По центру, без номеров позиций, точки черные) -->
+                        <!-- Горизонтальный блок Completed -->
                         <div v-if="entry.completed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Completed ({{ entry.completed.length }})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -76,7 +77,7 @@ export default {
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Progressed (По центру, без номеров позиций, точки черные) -->
+                        <!-- Горизонтальный блок Progressed -->
                         <div v-if="entry.progressed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Progressed ({{entry.progressed.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -106,7 +107,6 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            // Надежный поиск объекта с минимальным значением поля rank
             let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
                 if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
