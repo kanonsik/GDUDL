@@ -46,12 +46,12 @@ export default {
                         <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Исправлен поиск индекса, теперь отображается корректно) -->
+                        <!-- Блок Hardest Level (Отступ уменьшен, шрифт увеличен с сохранением оригинального стиля) -->
                         <template v-if="hardestLevel">
-                            <h2 style="text-align: left; margin-bottom: 0.3rem;">Hardest Level</h2>
-                            <div style="display: flex; gap: 0.4rem; justify-content: flex-start; align-items: center; margin-bottom: 3rem;">
-                                <p style="margin: 0; font-weight: bold; color: #000;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
-                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link">{{ hardestLevel.level }}</a>
+                            <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
+                            <div style="display: flex; gap: 0.5rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
+                                <p style="margin: 0; font-weight: bold; color: #000; font-size: 1.3rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
+                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link" style="font-size: 1.3rem; font-weight: bold; text-decoration: none;">{{ hardestLevel.level }}</a>
                             </div>
                         </template>
 
@@ -107,7 +107,6 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            // Точный поиск элемента с явным указанием начального индекса [0]
             let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
                 if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
