@@ -113,13 +113,13 @@ export default {
                         </ol>
                     </template>
                     
-                    <!-- Полностью исправленный блок вывода по вашему шаблону -->
+                    <!-- Обновленный блок: отступ уменьшен, весь текст приведен к единому крупному шрифту .type-label-lg -->
                     <template v-if="level">
-                        <div style="margin-top: 1.5rem;">
-                            <p class="type-label-md" style="line-height: 1.6; opacity: 0.85;">
-                                <span class="type-label-lg" style="font-weight: bold;">{{ level.name }}</span> placed at #{{ selected + 1 }}<!--
-                             --><span v-if="levelAbove">, above <span class="type-label-lg" style="font-weight: bold;">{{ levelAbove.name }}</span></span><!--
-                             --><span v-if="levelBelow">, below <span class="type-label-lg" style="font-weight: bold;">{{ levelBelow.name }}</span></span>
+                        <div style="margin-top: 0.6rem;">
+                            <p class="type-label-lg" style="line-height: 1.5; font-weight: bold; opacity: 0.85;">
+                                {{ level.name }} placed at #{{ selected + 1 }}<!--
+                             --><span v-if="levelAbove">, above {{ levelAbove.name }}</span><!--
+                             --><span v-if="levelBelow">, below {{ levelBelow.name }}</span>
                             </p>
                         </div>
                     </template>
@@ -137,21 +137,18 @@ export default {
         store
     }),
     computed: {
-        // ВОЗВРАЩЕНО К ОРИГИНАЛУ: Извлекаем строго нулевой элемент массива уровня [0]
         level() {
-            return this.list[this.selected] ? this.list[this.selected][0] : null;
+            return this.list[this.selected] ? this.list[this.selected] : null;
         },
-        // Корректное извлечение названия уровня, стоящего выше по списку
         levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1][0]) {
-                return this.list[this.selected - 1][0];
+            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1]) {
+                return this.list[this.selected - 1];
             }
             return null;
         },
-        // Корректное извлечение названия уровня, стоящего ниже по списку
         levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1][0]) {
-                return this.list[this.selected + 1][0];
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1]) {
+                return this.list[this.selected + 1];
             }
             return null;
         },
