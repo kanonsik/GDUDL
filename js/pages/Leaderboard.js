@@ -12,7 +12,6 @@ export default {
         loading: true,
         selected: 0,
         err: [],
-        flagErrors: {} // Отслеживание упавших картинок
     }),
     template: `
         <main v-if="loading">
@@ -44,24 +43,17 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
+                        <!-- Главный заголовок профиля с флагом из стабильного глобального источника без alt="ru" -->
                         <h1 style="text-align: left; display: flex; align-items: center; gap: 0.8rem;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
-                            
-                            <!-- Умный блок флага: если картинка не грузится, плавно переключается на красивую иконку глобуса -->
-                            <template v-if="entry && entry.country">
-                                <img v-if="!flagErrors[entry.user]"
-                                     :src="'https://flagcdn.com' + entry.country.toLowerCase() + '.png'" 
-                                     alt=""
-                                     @error="handleFlagError(entry.user)"
-                                     style="width: 36px; height: auto; border-radius: 4px; box-shadow: 0 0 3px rgba(0,0,0,0.2); margin-top: 4px; display: inline-block;" />
-                                
-                                <!-- Эстетичная замена, если CDN заблокирован -->
-                                <span v-else style="font-size: 1.6rem; color: #666; margin-top: 4px;" title="Страна указана, но флаг недоступен">🌐</span>
-                            </template>
+                            <img v-if="entry && entry.country" 
+                                 :src="'https://github.io' + entry.country.toUpperCase() + '.svg'" 
+                                 alt=""
+                                 style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px; display: inline-block;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Стабильно работает) -->
+                        <!-- Блок Hardest Level (Абсолютно стабилен, не зависит от картинок) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -139,9 +131,5 @@ export default {
     },
     methods: {
         localize,
-        // Метод фиксации ошибки загрузки изображения
-        handleFlagError(username) {
-            this.\$set(this.flagErrors, username, true);
-        }
     },
 };
