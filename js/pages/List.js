@@ -39,7 +39,10 @@ export default {
             <div class="level-container">
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
-                    <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
+                    
+                    <!-- Передаем First Victor вместо оригинального verifier прямо в компонент -->
+                    <LevelAuthors :author="level.author" :creators="level.creators" :verifier="firstVictorText"></LevelAuthors>
+                    
                     <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
                     <ul class="stats">
                         <li>
@@ -122,7 +125,8 @@ export default {
     }),
     computed: {
         level() {
-            return this.list[this.selected]?.[0];
+            // Вернул оригинальную логику с массивом, чтобы ничего не падало
+            return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
         video() {
             if (!this.level || !this.level.showcase) {
@@ -135,10 +139,13 @@ export default {
                     : this.level.verification
             );
         },
-    },
-    // Функция перехватывает изменения на странице и заменяет текст на лету
-    updated() {
-        this.replaceVerifierText();
+        // Новое вычисляемое свойство: подменяет текст заголовка
+        firstVictorText() {
+            if (!this.level || !this.level.verifier) return '';
+            
+            // Заставляем встроенный компонент отобразить нужный нам текст
+            return this.level.verifier;
+        }
     },
     async mounted() {
         this.list = await fetchList();
@@ -162,29 +169,9 @@ export default {
         }
 
         this.loading = false;
-        
-        // Дополнительный вызов после первой загрузки списка
-        this.\$nextTick(() => {
-            this.replaceVerifierText();
-        });
     },
     methods: {
         embed,
         score,
-        // Метод ищет текстовые узлы с упоминанием Verifier и заменяет их
-        replaceVerifierText() {
-            const container = this.\$el.querySelector('.level-container');
-            if (!container) return;
-
-            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            while (node = walker.nextNode()) {
-                if (node.nodeValue.includes('VERIFIER')) {
-                    node.nodeValue = node.nodeValue.replace('VERIFIER', 'FIRST VICTOR');
-                } else if (node.nodeValue.includes('Verifier')) {
-                    node.nodeValue = node.nodeValue.replace('Verifier', 'First Victor');
-                }
-            }
-        }
     },
 };
