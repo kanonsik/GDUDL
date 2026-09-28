@@ -12,7 +12,6 @@ export default {
         loading: true,
         selected: 0,
         err: [],
-        brokenFlags: {} // Объект для отслеживания упавших картинок
     }),
     template: `
         <main v-if="loading">
@@ -44,24 +43,17 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Главный заголовок профиля с умным переключением на резервную иконку 🌐 при ошибке сети -->
-                        <h1 style="text-align: left; display: flex; align-items: center; gap: 0.8rem;">
+                        <!-- Заголовок профиля с локальным флагом. Больше никаких глобусов и внешних запросов -->
+                        <h1 style="text-align: left; display: flex; align-items: center; gap: 0.5rem;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
-                            <template v-if="entry && entry.country">
-                                <!-- Подгружаем SVG из сверхстабильного jsDelivr npm CDN -->
-                                <img v-if="!brokenFlags[entry.user]"
-                                     :src="'https://jsdelivr.net' + entry.country.toLowerCase() + '.svg'" 
-                                     alt=""
-                                     @error="onFlagError(entry.user)"
-                                     style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px; display: inline-block;" />
-                                
-                                <!-- Эстетичный текстовый глобус, если даже jsDelivr не смог загрузиться -->
-                                <span v-else style="font-size: 1.6rem; color: #666; margin-top: 4px;" title="Flag unavailable">🌐</span>
-                            </template>
+                            <img v-if="entry && entry.country" 
+                                 :src="'/assets/flags/' + entry.country.toLowerCase() + '.png'" 
+                                 alt=""
+                                 style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px; display: inline-block;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Отображается идеально) -->
+                        <!-- Блок Hardest Level -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
@@ -122,7 +114,7 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed[0];
+            let minLevel = allPassed;
             for (let i = 1; i < allPassed.length; i++) {
                 if (allPassed[i] && Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
@@ -139,12 +131,5 @@ export default {
     },
     methods: {
         localize,
-        // Безопасная фиксация ошибки без использования устаревшего \$set
-        onFlagError(username) {
-            this.brokenFlags = {
-                ...this.brokenFlags,
-                [username]: true
-            };
-        }
     },
 };
