@@ -104,7 +104,8 @@ export default {
                     </div>
                     <template v-if="editors">
                         <h3>beb3lb</h3>
-                        <ol class="editors" style="margin-bottom: 2rem;">
+                        <!-- Толщина линии border-bottom увеличена до 2.5px, цвет стал чуть контрастнее -->
+                        <ol class="editors" style="margin-bottom: 0; border-bottom: 2.5px solid rgba(128,128,128,0.35); padding-bottom: 1.5rem;">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
                                 <a v-if="editor.link" class="type-label-lg link" target="_blank" :href="editor.link">{{ editor.name }}</a>
@@ -113,13 +114,13 @@ export default {
                         </ol>
                     </template>
                     
-                    <!-- Блок вывода информации об уровне возвращен и работает стабильно вместе с beb3lb -->
+                    <!-- Блок информации об уровне -->
                     <template v-if="level">
-                        <div style="margin-top: 2rem; border-top: 1px solid #333; padding-top: 1.5rem;">
-                            <p class="type-label-md" style="line-height: 1.5; color: #ccc;">
-                                <strong>{{ level.name }}</strong> placed at #{{ selected + 1 }}<!--
-                             --><span v-if="levelAbove">, above <strong>{{ levelAbove.name }}</strong></span><!--
-                             --><span v-if="levelBelow">, below <strong>{{ levelBelow.name }}</strong></span>
+                        <div style="margin-top: 1.5rem;">
+                            <p class="type-label-md" style="line-height: 1.6; opacity: 0.85;">
+                                <span class="type-label-lg" style="font-weight: bold;">{{ level.name }}</span> placed at #{{ selected + 1 }}<!--
+                             --><span v-if="levelAbove">, above <span class="type-label-lg" style="font-weight: bold;">{{ levelAbove.name }}</span></span><!--
+                             --><span v-if="levelBelow">, below <span class="type-label-lg" style="font-weight: bold;">{{ levelBelow.name }}</span></span>
                             </p>
                         </div>
                     </template>
@@ -138,19 +139,17 @@ export default {
     }),
     computed: {
         level() {
-            return this.list[this.selected] ? this.list[this.selected][0] : null;
+            return this.list[this.selected] ? this.list[this.selected] : null;
         },
-        // ИСПРАВЛЕНО: Добавлен индекс [0] для правильного извлечения уровня выше
         levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1][0]) {
-                return this.list[this.selected - 1][0];
+            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1]) {
+                return this.list[this.selected - 1];
             }
             return null;
         },
-        // ИСПРАВЛЕНО: Добавлен индекс [0] для правильного извлечения уровня ниже
         levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1][0]) {
-                return this.list[this.selected + 1][0];
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1]) {
+                return this.list[this.selected + 1];
             }
             return null;
         },
