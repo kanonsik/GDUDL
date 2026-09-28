@@ -113,7 +113,7 @@ export default {
                         </ol>
                     </template>
                     
-                    <!-- Обновленный блок: отступ уменьшен, весь текст приведен к единому крупному шрифту .type-label-lg -->
+                    <!-- Полностью исправленный адаптивный блок строки Pointercrate -->
                     <template v-if="level">
                         <div style="margin-top: 0.6rem;">
                             <p class="type-label-lg" style="line-height: 1.5; font-weight: bold; opacity: 0.85;">
@@ -137,18 +137,21 @@ export default {
         store
     }),
     computed: {
+        // Оригинальное свойство: извлекает чистый объект уровня из первого элемента массива
         level() {
-            return this.list[this.selected] ? this.list[this.selected] : null;
+            return this.list[this.selected] ? this.list[this.selected][0] : null;
         },
+        // ИСПРАВЛЕНО: Безопасное извлечение объекта уровня выше [0] без падения скрипта
         levelAbove() {
-            if (this.selected > 0 && this.list[this.selected - 1] && this.list[this.selected - 1]) {
-                return this.list[this.selected - 1];
+            if (this.selected > 0 && this.list[this.selected - 1]) {
+                return this.list[this.selected - 1][0] || null;
             }
             return null;
         },
+        // ИСПРАВЛЕНО: Безопасное извлечение объекта уровня ниже [0] без падения скрипта
         levelBelow() {
-            if (this.selected < this.list.length - 1 && this.list[this.selected + 1] && this.list[this.selected + 1]) {
-                return this.list[this.selected + 1];
+            if (this.selected < this.list.length - 1 && this.list[this.selected + 1]) {
+                return this.list[this.selected + 1][0] || null;
             }
             return null;
         },
