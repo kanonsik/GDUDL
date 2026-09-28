@@ -43,18 +43,18 @@ export default {
                 </div>
                 <div class="player-container">
                     <div class="player">
-                        <!-- Заголовок профиля с локальным флагом. Больше никаких глобусов и внешних запросов -->
-                        <h1 style="text-align: left; display: flex; align-items: center; gap: 0.5rem;">
+                        <!-- Заголовок профиля: ник прижат влево, локальный флаг справа -->
+                        <h1 style="text-align: left;">
                             <span>#{{ selected + 1 }} {{ entry.user }}</span>
                             <img v-if="entry && entry.country" 
                                  :src="'/assets/flags/' + entry.country.toLowerCase() + '.png'" 
                                  alt=""
-                                 style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-top: 4px; display: inline-block;" />
+                                 style="width: 32px; height: auto; border-radius: 3px; box-shadow: 0 0 2px rgba(0,0,0,0.3); margin-left: 0.6rem; vertical-align: middle; display: inline-block;" />
                         </h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level -->
-                        <template v-if="hardestLevel">
+                        <!-- Полностью защищенный блок Hardest Level -->
+                        <template v-if="hardestLevel && hardestLevel.rank">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
                                 <p style="margin: 0; font-weight: bold; color: #666; font-size: 1.8rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
@@ -63,7 +63,7 @@ export default {
                         </template>
 
                         <!-- Горизонтальный блок First Victor -->
-                        <div v-if="entry.verified.length > 0" style="margin-bottom: 3rem;">
+                        <div v-if="entry.verified && entry.verified.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">First Victor ({{ entry.verified.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.verified" :key="'v-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
@@ -74,7 +74,7 @@ export default {
                         </div>
 
                         <!-- Горизонтальный блок Completed -->
-                        <div v-if="entry.completed.length > 0" style="margin-bottom: 3rem;">
+                        <div v-if="entry.completed && entry.completed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Completed ({{ entry.completed.length }})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.completed" :key="'c-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
@@ -85,7 +85,7 @@ export default {
                         </div>
 
                         <!-- Горизонтальный блок Progressed -->
-                        <div v-if="entry.progressed.length > 0" style="margin-bottom: 3rem;">
+                        <div v-if="entry.progressed && entry.progressed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Progressed ({{entry.progressed.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.progressed" :key="'p-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
@@ -114,9 +114,9 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed;
+            let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
-                if (allPassed[i] && Number(allPassed[i].rank) < Number(minLevel.rank)) {
+                if (allPassed[i] && minLevel && Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
                 }
             }
