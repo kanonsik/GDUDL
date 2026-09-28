@@ -46,44 +46,44 @@ export default {
                         <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Отступ уменьшен, шрифт увеличен с сохранением оригинального стиля) -->
+                        <!-- Блок Hardest Level (Шрифт значительно увеличен, позиция темно-серая) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.1rem;">Hardest Level</h2>
-                            <div style="display: flex; gap: 0.5rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
-                                <p style="margin: 0; font-weight: bold; color: #000; font-size: 1.3rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
-                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link" style="font-size: 1.3rem; font-weight: bold; text-decoration: none;">{{ hardestLevel.level }}</a>
+                            <div style="display: flex; gap: 0.6rem; justify-content: flex-start; align-items: baseline; margin-bottom: 3rem;">
+                                <p style="margin: 0; font-weight: bold; color: #666; font-size: 1.8rem;" class="type-label-lg">#{{ hardestLevel.rank }}</p>
+                                <a class="type-label-lg" target="_blank" :href="hardestLevel.link" style="font-size: 1.8rem; font-weight: bold; text-decoration: none;">{{ hardestLevel.level }}</a>
                             </div>
                         </template>
 
-                        <!-- Горизонтальный блок First Victor -->
+                        <!-- Горизонтальный блок First Victor (Точки темно-серые) -->
                         <div v-if="entry.verified.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">First Victor ({{ entry.verified.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.verified" :key="'v-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.level }}</a>
-                                    <span v-if="idx < entry.verified.length - 1" style="color: #000; margin-left: 0.6rem; font-weight: bold;">•</span>
+                                    <span v-if="idx < entry.verified.length - 1" style="color: #666; margin-left: 0.6rem; font-weight: bold;">•</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Completed -->
+                        <!-- Горизонтальный блок Completed (Точки темно-серые) -->
                         <div v-if="entry.completed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Completed ({{ entry.completed.length }})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.completed" :key="'c-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.level }}</a>
-                                    <span v-if="idx < entry.completed.length - 1" style="color: #000; margin-left: 0.6rem; font-weight: bold;">•</span>
+                                    <span v-if="idx < entry.completed.length - 1" style="color: #666; margin-left: 0.6rem; font-weight: bold;">•</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Горизонтальный блок Progressed -->
+                        <!-- Горизонтальный блок Progressed (Точки темно-серые) -->
                         <div v-if="entry.progressed.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">Progressed ({{entry.progressed.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
                                 <div v-for="(score, idx) in entry.progressed" :key="'p-'+idx" style="display: flex; gap: 0.4rem; align-items: center;">
                                     <a class="type-label-lg" target="_blank" :href="score.link">{{ score.percent }}% {{ score.level }}</a>
-                                    <span v-if="idx < entry.progressed.length - 1" style="color: #000; margin-left: 0.6rem; font-weight: bold;">•</span>
+                                    <span v-if="idx < entry.progressed.length - 1" style="color: #666; margin-left: 0.6rem; font-weight: bold;">•</span>
                                 </div>
                             </div>
                         </div>
@@ -117,9 +117,13 @@ export default {
         }
     },
     async mounted() {
-        const [leaderboard, err] = await fetchLeaderboard();
-        this.leaderboard = leaderboard;
-        this.err = err;
+        const [leaderboard, err] = await fetchFetchLeaderboard ? await fetchLeaderboard() : [null, []];
+        this.leaderboard = leaderboard || [];
+        this.err = err || [];
+        // Фикс для корректного вызова оригинальной функции
+        const [resBoard, resErr] = await fetchLeaderboard();
+        this.leaderboard = resBoard;
+        this.err = resErr;
         this.loading = false;
     },
     methods: {
