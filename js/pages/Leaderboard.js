@@ -46,7 +46,7 @@ export default {
                         <h1 style="text-align: left;">#{{ selected + 1 }} {{ entry.user }}</h1>
                         <h3 style="text-align: left; margin-bottom: 2.5rem;">{{ entry.total }}</h3>
                         
-                        <!-- Блок Hardest Level (Шрифт оригинальный, отступ уменьшен, позиция черная) -->
+                        <!-- Блок Hardest Level (Исправлен поиск индекса, теперь отображается корректно) -->
                         <template v-if="hardestLevel">
                             <h2 style="text-align: left; margin-bottom: 0.3rem;">Hardest Level</h2>
                             <div style="display: flex; gap: 0.4rem; justify-content: flex-start; align-items: center; margin-bottom: 3rem;">
@@ -55,7 +55,7 @@ export default {
                             </div>
                         </template>
 
-                        <!-- Горизонтальный block First Victor -->
+                        <!-- Горизонтальный блок First Victor -->
                         <div v-if="entry.verified.length > 0" style="margin-bottom: 3rem;">
                             <h2 style="text-align: center; margin-bottom: 1.2rem;">First Victor ({{ entry.verified.length}})</h2>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; justify-content: center; align-items: center; padding: 0 1rem;">
@@ -107,7 +107,8 @@ export default {
 
             if (allPassed.length === 0) return null;
 
-            let minLevel = allPassed;
+            // Точный поиск элемента с явным указанием начального индекса [0]
+            let minLevel = allPassed[0];
             for (let i = 1; i < allPassed.length; i++) {
                 if (Number(allPassed[i].rank) < Number(minLevel.rank)) {
                     minLevel = allPassed[i];
