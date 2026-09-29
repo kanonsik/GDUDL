@@ -5,7 +5,8 @@ import { round, score } from './score.js';
  */
 const dir = '/data';
 
-export async function fetchList() {
+// Внутренняя функция для полной загрузки ВСЕХ файлов из _list.json
+async function fetchAllRawList() {
     const listResult = await fetch(`${dir}/_list.json`);
     try {
         const list = await listResult.json();
@@ -18,9 +19,7 @@ export async function fetchList() {
                         {
                             ...level,
                             path,
-                            records: level.records.sort(
-                                (a, b) => b.percent - a.percent,
-                            ),
+                            records: level.records ? level.records.sort((a, b) => b.percent - a.percent) : [],
                         },
                         null,
                     ];
@@ -34,6 +33,27 @@ export async function fetchList() {
         console.error(`Failed to load list.`);
         return null;
     }
+}
+
+// ОБНОВЛЕНО: возвращает ТОЛЬКО уровни, у которых НЕТ пометки upcoming (для вкладки Classic)
+export async function fetchList() {
+    const allLevels = await fetchAllRawList();
+    if (!allLevels) return null;
+    
+    // Оставляем только те уровни, которые НЕ являются будущими (свойства upcoming нет или оно false)
+    return allLevels.filter(([level, err]) => err || (level && !level.upcoming));
+}
+
+// НОВАЯ ФУНКЦИЯ: вытаскивает строго будущие уровни из той же базы данных (для вкладки Future)
+export async function fetchUpcomingList() {
+    const allLevels = await fetchAllRawList();
+    if (!allLevels) return null;
+    
+    // Оставляем только будущие уровни, у которых upcoming равен true
+    const upcomingFiltered = allLevels.filter(([level, err]) => level && level.upcoming === true);
+    
+    // Возвращаем их в формате [список уровней]
+    return [upcomingFiltered.map(([level]) => level), null];
 }
 
 export async function fetchEditors() {
@@ -58,7 +78,7 @@ export async function fetchCountries() {
 }
 
 export async function fetchLeaderboard() {
-    const list = await fetchList();
+    const list = await fetchList(); // Использует отфильтрованный список (без будущих уровней)
     const countries = await fetchCountries(); // Читаем страны параллельно со списком
 
     const scoreMap = {};
