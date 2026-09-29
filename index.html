@@ -30,9 +30,9 @@
             type="text/css"
             href="/css/components/tabs.css"
         />
-        <!-- ДОБАВЛЕНЫ DEFER: Гарантирует, что Vue загрузится ПЕРЕД выполнением кода main.js -->
-        <script src="https://unpkg.com" defer></script>
-        <script src="https://unpkg.com" defer></script>
+        <!-- ИСПРАВЛЕНО: Заменили заблокированный unpkg.com на сверхнадежный Cloudflare cdnjs -->
+        <script src="https://cloudflare.com"></script>
+        <script src="https://cloudflare.com"></script>
         <script type="module" src="/js/main.js"></script>
     </head>
     <body id="app">
