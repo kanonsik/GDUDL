@@ -35,7 +35,8 @@
     transition: background-color 100ms ease;
 }
 .nav .nav__actions .nav__icon:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    /* Универсальный серый цвет: на белом фоне он создаст мягкую тень, а на тёмном — аккуратный светлый блик */
+    background-color: rgba(128, 128, 128, 0.25);
 }
 .nav .nav__actions .nav__icon img {
     height: 1.5rem;
