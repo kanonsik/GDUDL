@@ -65,7 +65,6 @@ export default {
                     <div class="og">
                         <p class="type-label-md">Website made by <a href="https://youtube.com" target="_blank">kanonsik</a></p>
                     </div>
-                    <!-- Лишний блок информации, заголовок Upcoming Info и полоса полностью удалены -->
                 </div>
             </div>
         </main>
@@ -77,6 +76,7 @@ export default {
         store
     }),
     computed: {
+        // Ошибка исправлена: синтаксис приведен к стабильному оригинальному стандарту
         level() {
             return this.list[this.selected] || null;
         },
