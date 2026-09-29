@@ -7,10 +7,10 @@
 
         <!-- Replace your server icon by uploading an image file named "list_icon.png"-->
         <link rel="icon" href="/list_icon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://googleapis.com" />
+        <link rel="preconnect" href="https://gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500;700&display=swap"
+            href="https://googleapis.com/css2?family=Lexend+Deca:wght@500;700&display=swap"
             rel="stylesheet"
         />
         <link rel="stylesheet" type="text/css" href="/css/reset.css" />
@@ -30,8 +30,8 @@
             type="text/css"
             href="/css/components/tabs.css"
         />
-        <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.js"></script>
-        <script src="https://unpkg.com/vue-router@4.0.14/dist/vue-router.global.prod.js"></script>
+        <script src="https://unpkg.com"></script>
+        <script src="https://unpkg.com"></script>
         <script type="module" src="/js/main.js"></script>
     </head>
     <body id="app">
@@ -41,7 +41,7 @@
                 <p></p>
             </div>
             <nav class="nav">
-                <!-- Выпадающее меню списков Classic / Future со шрифтами вашей темы -->
+                <!-- Выпадающее меню Classic / Future -->
                 <div class="nav__dropdown-container" style="position: relative; display: inline-block; height: 100%;">
                     <button @click.stop="store.toggleMenu()" class="nav__tab" style="background: transparent; border: none; cursor: pointer; font-family: inherit; font-size: inherit; color: inherit; display: flex; align-items: center; gap: 6px; height: 100%;">
                         <span class="type-label-lg">Lists</span>
@@ -74,10 +74,9 @@
                             alt=""
                         />
                     </button>
-                    <!-- Оригинальная форма отправки рекордов UDL -->
                     <a
                         class="nav__cta type-label-lg"
-                        href="https://docs.google.com/forms/d/e/1FAIpQLSc3sYlDqF6woY2zkpQNnAcI4r0fQPitbbsKtbjX7UZadVfawQ/viewform?usp=preview"
+                        href="https://google.com"
                         target="_blank"
                         >Submit Record</a
                     >
@@ -86,16 +85,15 @@
         </header>
         <router-view :class="{ dark: store.dark }"></router-view>
 
-        <!-- Кастомные адаптивные инлайн-стили ховеров под темы сайта -->
+        <!-- Стили ховеров с принудительным наследованием шрифта проекта -->
         <style>
             .nav__dropdown-menu .dropdown-item {
-                font-family: 'Lexend Deca', sans-serif;
-                font-weight: 500;
+                font-family: 'Lexend Deca', sans-serif !important;
+                font-weight: 500 !important;
             }
             .nav__dropdown-menu .dropdown-item:hover {
                 background-color: rgba(128, 128, 128, 0.15) !important;
             }
-            /* Универсальный серый кружок ховера для кнопки смены темы (светлая/тёмная) */
             .nav .nav__actions .nav__icon:hover {
                 background-color: rgba(128, 128, 128, 0.25) !important;
             }
