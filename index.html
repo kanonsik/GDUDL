@@ -30,9 +30,9 @@
             type="text/css"
             href="/css/components/tabs.css"
         />
-        <!-- ИСПРАВЛЕНО: Заменили заблокированный unpkg.com на сверхнадежный Cloudflare cdnjs -->
-        <script src="https://cloudflare.com"></script>
-        <script src="https://cloudflare.com"></script>
+        <!-- ДОБАВЛЕНЫ DEFER: Теперь Cloudflare CDN гарантированно загрузится ПЕРЕД выполнением модуля main.js -->
+        <script src="https://cloudflare.com" defer></script>
+        <script src="https://cloudflare.com" defer></script>
         <script type="module" src="/js/main.js"></script>
     </head>
     <body id="app">
