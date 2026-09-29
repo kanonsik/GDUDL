@@ -38,10 +38,9 @@ export default {
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.author }}</p>
                         </div>
                         <div v-if="level.verifier">
-                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Verifier</div>
+                            <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">First Victor</div>
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.verifier }}</p>
                         </div>
-                        <!-- Вывод соавторов из вашего массива creators -->
                         <div v-if="level.creators && level.creators.length > 0">
                             <div class="type-title-sm" style="text-transform: uppercase; font-size: 0.75rem; color: #555; font-weight: 600;">Creators</div>
                             <p class="type-label-lg" style="margin: 0.2rem 0 0 0;">{{ level.creators.join(', ') }}</p>
@@ -66,12 +65,7 @@ export default {
                     <div class="og">
                         <p class="type-label-md">Website made by <a href="https://youtube.com" target="_blank">kanonsik</a></p>
                     </div>
-                    <div style="margin-top: 1.5rem; border-top: 2.5px solid rgba(128,128,128,0.35); padding-top: 1.5rem;">
-                        <h3 style="margin-bottom: 0.5rem;">Upcoming Info</h3>
-                        <p class="type-label-lg" style="line-height: 1.5; font-weight: bold; opacity: 0.85;" v-if="level">
-                            {{ level.name }} is currently in verification or consideration status.
-                        </p>
-                    </div>
+                    <!-- Лишний блок информации, заголовок Upcoming Info и полоса полностью удалены -->
                 </div>
             </div>
         </main>
