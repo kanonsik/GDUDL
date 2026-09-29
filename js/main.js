@@ -1,3 +1,6 @@
+// Прямой импорт зависимостей внутрь модуля (Бронебойный фикс ошибки Vue is not defined)
+import 'https://cloudflare.com';
+import 'https://cloudflare.com';
 import routes from './routes.js';
 
 export const store = Vue.reactive({
@@ -6,7 +9,6 @@ export const store = Vue.reactive({
         this.dark = !this.dark;
         localStorage.setItem('dark', JSON.stringify(this.dark));
     },
-    // Добавили управление состоянием выпадающего меню Lists
     menuOpen: false,
     toggleMenu() {
         this.menuOpen = !this.menuOpen;
@@ -19,7 +21,6 @@ export const store = Vue.reactive({
 const app = Vue.createApp({
     data: () => ({ store }),
     mounted() {
-        // Закрывать меню при клике в любое другое место экрана
         document.addEventListener('click', (e) => {
             const dropdown = document.querySelector('.nav__dropdown-container');
             if (dropdown && !dropdown.contains(e.target)) {
@@ -34,11 +35,9 @@ const router = VueRouter.createRouter({
     routes,
 });
 
-// Автоматически закрывать выпадающее меню при переходе на любую страницу
 router.afterEach(() => {
     store.closeMenu();
 });
 
 app.use(router);
-
 app.mount('#app');
