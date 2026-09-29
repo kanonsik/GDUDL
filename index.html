@@ -30,7 +30,8 @@
             type="text/css"
             href="/css/components/tabs.css"
         />
-        <!-- Внешние теги скриптов удалены. Импорт теперь происходит напрямую внутри модуля main.js -->
+        <script src="https://unpkg.com"></script>
+        <script src="https://unpkg.com"></script>
         <script type="module" src="/js/main.js"></script>
     </head>
     <body id="app">
@@ -40,23 +41,9 @@
                 <p></p>
             </div>
             <nav class="nav">
-                <!-- Выпадающее меню Classic / Future -->
-                <div class="nav__dropdown-container" style="position: relative; display: inline-block; height: 100%;">
-                    <button @click.stop="store.toggleMenu()" class="nav__tab" style="background: transparent; border: none; cursor: pointer; font-family: inherit; font-size: inherit; color: inherit; display: flex; align-items: center; gap: 6px; height: 100%;">
-                        <span class="type-label-lg">Lists</span>
-                        <span style="font-size: 0.65rem; transition: transform 0.2s; display: inline-block; margin-top: 1px;" :style="{ transform: store.menuOpen ? 'rotate(180deg)' : 'rotate(0deg)' }">▼</span>
-                    </button>
-                    
-                    <div v-if="store.menuOpen" class="nav__dropdown-menu" style="position: absolute; top: 100%; left: 0; background-color: var(--color-primary); border: 1px solid rgba(128,128,128,0.2); border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; min-width: 140px; padding: 0.4rem 0; margin-top: 5px;">
-                        <router-link to="/" class="dropdown-item" style="display: block; padding: 0.6rem 1rem; text-decoration: none; color: inherit; font-size: 0.95rem;">
-                            🏆 Classic
-                        </router-link>
-                        <router-link to="/future" class="dropdown-item" style="display: block; padding: 0.6rem 1rem; text-decoration: none; color: inherit; font-size: 0.95rem; border-top: 1px solid rgba(128,128,128,0.1);">
-                            🔮 Future
-                        </router-link>
-                    </div>
-                </div>
-
+                <router-link class="nav__tab" to="/">
+                    <span class="type-label-lg">List</span>
+                </router-link>
                 <router-link class="nav__tab" to="/leaderboard">
                     <span class="type-label-lg">Leaderboard</span>
                 </router-link>
@@ -73,6 +60,8 @@
                             alt=""
                         />
                     </button>
+                    <!-- Replace the '#' with your discord server's invite-->
+                    <!-- List record submission form, add a link to replace the '#' when putting a link to your list submission form-->
                     <a
                         class="nav__cta type-label-lg"
                         href="https://google.com"
@@ -83,19 +72,5 @@
             </nav>
         </header>
         <router-view :class="{ dark: store.dark }"></router-view>
-
-        <!-- Стили ховеров с принудительным наследованием шрифта проекта -->
-        <style>
-            .nav__dropdown-menu .dropdown-item {
-                font-family: 'Lexend Deca', sans-serif !important;
-                font-weight: 500 !important;
-            }
-            .nav__dropdown-menu .dropdown-item:hover {
-                background-color: rgba(128, 128, 128, 0.15) !important;
-            }
-            .nav .nav__actions .nav__icon:hover {
-                background-color: rgba(128, 128, 128, 0.25) !important;
-            }
-        </style>
     </body>
 </html>
