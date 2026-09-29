@@ -41,36 +41,43 @@
                 <p></p>
             </div>
             <nav class="nav">
-                <router-link class="nav__tab" to="/">
-                    <span class="type-label-lg">List</span>
-                </router-link>
-                <router-link class="nav__tab" to="/leaderboard">
-                    <span class="type-label-lg">Leaderboard</span>
-                </router-link>
-                <router-link class="nav__tab" to="/roulette">
-                    <span class="type-label-lg">Roulette</span>
-                </router-link>
-                <div class="nav__actions">
-                    <button
-                        class="nav__icon"
-                        @click.prevent="store.toggleDark()"
-                    >
-                        <img
-                            :src="store.dark ? '/assets/light.svg' : '/assets/dark.svg'"
-                            alt=""
-                        />
-                    </button>
-                    <!-- Replace the '#' with your discord server's invite-->
-                    <!-- List record submission form, add a link to replace the '#' when putting a link to your list submission form-->
-                    <a
-                        class="nav__cta type-label-lg"
-                        href="https://docs.google.com/forms/d/e/1FAIpQLSc3sYlDqF6woY2zkpQNnAcI4r0fQPitbbsKtbjX7UZadVfawQ/viewform?usp=preview"
-                        target="_blank"
-                        >Submit Record</a
-                    >
-                </div>
-            </nav>
-        </header>
-        <router-view :class="{ dark: store.dark }"></router-view>
-    </body>
-</html>
+    <div class="nav__dropdown-container" style="position: relative; display: inline-block;">
+        <!-- Кнопка Lists, которая открывает меню Classic / Future -->
+        <button @click.stop="store.toggleMenu()" class="nav__tab" style="background: transparent; border: none; cursor: pointer; font-family: inherit; font-size: inherit; color: inherit; display: flex; align-items: center; gap: 4px; height: 100%; padding-top: 4px; padding-bottom: 4px;">
+            Lists <span style="font-size: 0.7rem; transition: transform 0.2s; display: inline-block; margin-top: 2px;" :style="{ transform: store.menuOpen ? 'rotate(180deg)' : 'rotate(0deg)' }">▼</span>
+        </button>
+        
+        <!-- Выпадающая плашка меню -->
+        <div v-if="store.menuOpen" class="nav__dropdown-menu" style="position: absolute; top: 100%; left: 0; background-color: var(--color-primary); border: 1px solid rgba(128,128,128,0.2); border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; min-width: 140px; padding: 0.4rem 0; margin-top: 5px;">
+            <router-link to="/" class="dropdown-item" style="display: block; padding: 0.6rem 1rem; text-decoration: none; color: inherit; font-weight: bold; font-size: 0.95rem; transition: background-color 100ms ease;">
+                🏆 Classic
+            </router-link>
+            <router-link to="/future" class="dropdown-item" style="display: block; padding: 0.6rem 1rem; text-decoration: none; color: inherit; font-weight: bold; font-size: 0.95rem; border-top: 1px solid rgba(128,128,128,0.1); transition: background-color 100ms ease;">
+                🔮 Future
+            </router-link>
+        </div>
+    </div>
+
+    <!-- Остальные стандартные вкладки твоего меню -->
+    <router-link to="/leaderboard" class="nav__tab">Leaderboard</router-link>
+    <router-link to="/roulette" class="nav__tab">Roulette</router-link>
+
+    <div class="nav__actions">
+        <!-- Кнопка смены темы с нашим исправленным универсальным серым кружком ховера -->
+        <button class="nav__icon" @click="store.toggleDark()" style="background-color: transparent; border: none; cursor: pointer; border-radius: 50%; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; transition: background-color 100ms ease;">
+            <img :src="'/assets/' + (store.dark ? 'sun' : 'moon') + '.svg'" alt="Theme Toggle" style="height: 1.5rem;">
+        </button>
+        <a href="https://forms.gle" target="_blank" class="nav__cta">Submit Record</a>
+    </div>
+</nav>
+
+<!-- Встраиваем стили ховера для выпадающего меню прямо сюда, чтобы не копаться в CSS файлах -->
+<style>
+    .nav__dropdown-menu .dropdown-item:hover {
+        background-color: rgba(128, 128, 128, 0.15) !important;
+    }
+    /* Фикс для адаптивного отображения кружка ховера темы везде */
+    .nav__actions .nav__icon:hover {
+        background-color: rgba(128, 128, 128, 0.25) !important;
+    }
+</style>
