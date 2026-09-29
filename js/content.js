@@ -35,25 +35,29 @@ async function fetchAllRawList() {
     }
 }
 
-// ОБНОВЛЕНО: возвращает ТОЛЬКО уровни, у которых НЕТ пометки upcoming (для вкладки Classic)
+// Возвращает ТОЛЬКО уровни, у которых НЕТ пометки upcoming (для вкладки Classic)
 export async function fetchList() {
     const allLevels = await fetchAllRawList();
     if (!allLevels) return null;
     
-    // Оставляем только те уровни, которые НЕ являются будущими (свойства upcoming нет или оно false)
     return allLevels.filter(([level, err]) => err || (level && !level.upcoming));
 }
 
-// НОВАЯ ФУНКЦИЯ: вытаскивает строго будущие уровни из той же базы данных (для вкладки Future)
+// ИСПРАВЛЕНО: Безопасное и чистое извлечение будущих уровней без ломающих деструктуризаций
 export async function fetchUpcomingList() {
     const allLevels = await fetchAllRawList();
-    if (!allLevels) return null;
+    if (!allLevels) return [[], null];
     
-    // Оставляем только будущие уровни, у которых upcoming равен true
-    const upcomingFiltered = allLevels.filter(([level, err]) => level && level.upcoming === true);
+    const upcomingLevels = [];
+    for (let i = 0; i < allLevels.length; i++) {
+        const item = allLevels[i];
+        // Если это рабочий уровень и у него стоит упкаминг — забираем в чистый массив
+        if (item && item[0] && item[0].upcoming === true) {
+            upcomingLevels.push(item[0]);
+        }
+    }
     
-    // Возвращаем их в формате [список уровней]
-    return [upcomingFiltered.map(([level]) => level), null];
+    return [upcomingLevels, null];
 }
 
 export async function fetchEditors() {
@@ -73,13 +77,13 @@ export async function fetchCountries() {
         const countries = await countriesResult.json();
         return countries;
     } catch {
-        return {}; // Возвращаем пустой объект, если файла нет, чтобы сайт не сломался
+        return {};
     }
 }
 
 export async function fetchLeaderboard() {
-    const list = await fetchList(); // Использует отфильтрованный список (без будущих уровней)
-    const countries = await fetchCountries(); // Читаем страны параллельно со списком
+    const list = await fetchList();
+    const countries = await fetchCountries();
 
     const scoreMap = {};
     const errs = [];
@@ -137,14 +141,12 @@ export async function fetchLeaderboard() {
         });
     });
 
-    // Wrap in extra Object containing the user and total score
     const res = Object.entries(scoreMap).map(([user, scores]) => {
         const { verified, completed, progressed } = scores;
         const total = [verified, completed, progressed]
             .flat()
             .reduce((prev, cur) => prev + cur.score, 0);
 
-        // Сопоставляем юзера с базой стран без учета регистра символов
         const matchedUserKey = Object.keys(countries).find(
             (k) => k.toLowerCase() === user.toLowerCase()
         );
@@ -153,11 +155,10 @@ export async function fetchLeaderboard() {
         return {
             user,
             total: round(total),
-            country, // Передаем флаг в объект игрока
+            country,
             ...scores,
         };
     });
 
-    // Sort by total score
     return [res.sort((a, b) => b.total - a.total), errs];
 }
